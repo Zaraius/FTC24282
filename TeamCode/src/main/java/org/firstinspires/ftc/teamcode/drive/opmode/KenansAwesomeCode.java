@@ -70,15 +70,15 @@ public class KenansAwesomeCode extends LinearOpMode {
                 armMotor.setPower(0);
             }
 
-            if (gamepad2.y) {
+            if (gamepad2.a) {
                 telemetry.addData("YO", "pressing Y");
                 planeServo.setPosition(0.65);
-            } else if (gamepad2.a) {
+            } else if (gamepad2.y) {
                 planeServo.setPosition(2);
             }
-            if (gamepad2.dpad_up) {
+            if (gamepad2.dpad_down) {
                 hangServo.setPosition(0);
-            } else if (gamepad2.dpad_down) {
+            } else if (gamepad2.dpad_up) {
                 hangServo.setPosition(1);
             }
         }

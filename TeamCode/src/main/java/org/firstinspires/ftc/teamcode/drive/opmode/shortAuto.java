@@ -18,49 +18,35 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  */
 @Config
 @Autonomous(group = "drive")
-public class blueLongAuto extends LinearOpMode {
+public class shortAuto extends LinearOpMode {
 
-    public static double frontDISTANCE = 70;
-    public static double leftDISTANCE = 60;
-    public static double rightDistance = 50;
-    public static double backDistance = 4;
+    public static double frontDISTANCE = 65;
+    public static double backDistance = 10;
 
     @Override
     public void runOpMode() throws InterruptedException {
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intake");
+
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory trajectory1 = drive.trajectoryBuilder(new Pose2d())
-                .strafeLeft(frontDISTANCE)
+                .forward(frontDISTANCE)
                 .build();
-
         Trajectory trajectory2 = drive.trajectoryBuilder(new Pose2d())
-                .back(leftDISTANCE)
+                .back(backDistance)
                 .build();
 
-        Trajectory trajectory3 = drive.trajectoryBuilder(new Pose2d())
-                .strafeRight(rightDistance)
-                .build();
-        Trajectory trajectory4 = drive.trajectoryBuilder(new Pose2d())
-                .back(leftDISTANCE)
-                .build();
-        Trajectory trajectory5 = drive.trajectoryBuilder(new Pose2d())
-                .forward(backDistance)
-                .build();
 
         waitForStart();
 
         if (isStopRequested()) return;
 
         drive.followTrajectory(trajectory1);
-        drive.followTrajectory(trajectory2);
-        drive.followTrajectory(trajectory3);
-        drive.followTrajectory(trajectory4);
         intakeMotor.setPower(-1);
-        drive.followTrajectory(trajectory5);
-        Thread.sleep(1000);
+        drive.followTrajectory(trajectory2);
+        Thread.sleep(2000);
         intakeMotor.setPower(0);
 
         Pose2d poseEstimate = drive.getPoseEstimate();

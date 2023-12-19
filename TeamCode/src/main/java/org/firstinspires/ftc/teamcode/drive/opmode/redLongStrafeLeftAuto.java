@@ -18,14 +18,15 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
  */
 @Config
 @Autonomous(group = "drive")
-public class blueLongAuto extends LinearOpMode {
+public class redLongStrafeLeftAuto extends LinearOpMode {
+
 
     public static double frontDISTANCE = 70;
     public static double leftDISTANCE = 60;
     public static double rightDistance = 50;
     public static double backDistance = 4;
 
-    @Override
+
     public void runOpMode() throws InterruptedException {
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intake");
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -33,7 +34,7 @@ public class blueLongAuto extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         Trajectory trajectory1 = drive.trajectoryBuilder(new Pose2d())
-                .strafeLeft(frontDISTANCE)
+                .strafeRight(frontDISTANCE)
                 .build();
 
         Trajectory trajectory2 = drive.trajectoryBuilder(new Pose2d())
@@ -41,11 +42,12 @@ public class blueLongAuto extends LinearOpMode {
                 .build();
 
         Trajectory trajectory3 = drive.trajectoryBuilder(new Pose2d())
-                .strafeRight(rightDistance)
+                .strafeLeft(rightDistance)
                 .build();
         Trajectory trajectory4 = drive.trajectoryBuilder(new Pose2d())
                 .back(leftDISTANCE)
                 .build();
+
         Trajectory trajectory5 = drive.trajectoryBuilder(new Pose2d())
                 .forward(backDistance)
                 .build();
@@ -62,6 +64,8 @@ public class blueLongAuto extends LinearOpMode {
         drive.followTrajectory(trajectory5);
         Thread.sleep(1000);
         intakeMotor.setPower(0);
+
+
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());
