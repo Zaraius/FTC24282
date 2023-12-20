@@ -7,6 +7,7 @@ import com.acmerobotics.dashboard.config.Config;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -17,8 +18,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 /*
  * This is a simple routine to test translational drive capabilities.
  */
-@Config
-@Autonomous(group = "drive")
+@TeleOp
 public class Vision extends LinearOpMode {
 
 
@@ -30,15 +30,14 @@ public class Vision extends LinearOpMode {
                 .setDrawCubeProjection(true)
                 .setDrawTagID(true)
                 .setDrawTagOutline(true)
-//                .setLensIntrinsics(todo numbers)
+                .setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
+                .setLensIntrinsics(963.786, 963.786, 335.975, 233.081)// maybe redo idk
                 .build();
         VisionPortal visionPortal = new VisionPortal.Builder()
                 .addProcessor(tagProcessor)
-                .setCamera(hardwareMap.get(WebcamName.class, "Wencam 1"))
+                .setCamera(hardwareMap.get(WebcamName.class, "Webcam 1"))
                 .setCameraResolution(new Size(640, 480))
                 .build();
-
-
 
 
         while (!isStopRequested() && opModeIsActive()) {
