@@ -1,5 +1,12 @@
 package org.firstinspires.ftc.teamcode.drive.opmode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
+
+import android.content.Context;
+
+import androidx.annotation.VisibleForTesting;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
@@ -22,9 +29,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-@TeleOp
 
-public class opencv extends LinearOpMode {
+public class opencv extends LinearOpMode{
 
     double cX = 0;//335.975;
     double cY = 0;//233.081;
@@ -37,15 +43,20 @@ public class opencv extends LinearOpMode {
     // Calculate the distance using the formula
     public static final double objectWidthInRealWorldUnits = 2.75;  // Replace with the actual width of the object in real-world units
     public static final double focalLength = 728;  // Replace with the focal length of the camera in pixels
-
+    public enum autoDirection{
+        LEFT,
+        MIDDLE,
+        RIGHT,
+    }
+    public autoDirection direction;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         initOpenCV();
-        //FtcDashboard dashboard = FtcDashboard.getInstance();
-        //telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        //FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
 
 
         waitForStart();
@@ -55,29 +66,49 @@ public class opencv extends LinearOpMode {
             telemetry.addData("Distance in Inch", (getDistance(width)));
             if(cX < 100) {
                 telemetry.addData("direction", "going left");
-                new shortAuto();
+               direction = autoDirection.LEFT;
             } else if (cX > 300) {
                 telemetry.addData("direction", "going right");
+                direction = autoDirection.RIGHT;
             } else {
                 telemetry.addData("direction", "going middle");
+                direction = autoDirection.MIDDLE;
             }
             telemetry.update();
 
             // The OpenCV pipeline automatically processes frames and handles detection
         }
 
-        // Release resources
+//         Release resources
         controlHubCam.stopStreaming();
     }
 
+public autoDirection getDirection(){
+        initOpenCV();
+    if(cX < 100) {
+//        telemetry.addData("direction", "going left");
+        direction = autoDirection.LEFT;
+    } else if (cX > 300) {
+//        telemetry.addData("direction", "going right");
+        direction = autoDirection.RIGHT;
+    } else {
+//        telemetry.addData("direction", "going middle");
+        direction = autoDirection.MIDDLE;
+    }
+//    telemetry.update();
+
+    return direction;
+}
     private void initOpenCV() {
 
         // Create an instance of the camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
-        // Use OpenCvCameraFactory class from FTC SDK to create camera instance
-        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
+//         Use OpenCvCameraFactory class from FTC SDK to create camera instance
+//        telemetry.addData("idk bro", OpenCvCameraFactory.getInstance());
+//        telemetry.update();
+        OpenCvCamera controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
                 hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
         controlHubCam.setPipeline(new YellowBlobDetectionPipeline());

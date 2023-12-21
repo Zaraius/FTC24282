@@ -13,19 +13,19 @@ public class KenansAwesomeCode extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // Declare our motors
         // Make sure your ID's match your configuration
-        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
-        DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
-        DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
-        DcMotor backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
+        DcMotor frontLeftMotor = hardwareMap.dcMotor.get("frontLeft");
+        DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeft");
+        DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
+        DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
         DcMotor intakeMotor = hardwareMap.dcMotor.get("intake");
-        DcMotor armMotor = hardwareMap.dcMotor.get("arm");
-        Servo planeServo = hardwareMap.get(Servo.class, "plane");
-        Servo hangServo = hardwareMap.get(Servo.class, "hang");
+//        DcMotor armMotor = hardwareMap.dcMotor.get("arm");
+//        Servo planeServo = hardwareMap.get(Servo.class, "plane");
+//        Servo hangServo = hardwareMap.get(Servo.class, "hang");
 
 
-        //frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        backRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        planeServo.setDirection(Servo.Direction.FORWARD);
+        frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+//        planeServo.setDirection(Servo.Direction.FORWARD);
 
         waitForStart();
 
@@ -61,26 +61,26 @@ public class KenansAwesomeCode extends LinearOpMode {
                 intakeMotor.setPower(0);
             }
 
-            if (up) {
-                armMotor.setPower(0.5);
-                // telemetry.
-            } else if (down) {
-                armMotor.setPower(-0.5);
-            } else {
-                armMotor.setPower(0);
-            }
-
-            if (gamepad2.a) {
-                telemetry.addData("YO", "pressing Y");
-                planeServo.setPosition(0.65);
-            } else if (gamepad2.y) {
-                planeServo.setPosition(2);
-            }
-            if (gamepad2.dpad_down) {
-                hangServo.setPosition(0);
-            } else if (gamepad2.dpad_up) {
-                hangServo.setPosition(1);
-            }
+//            if (up) {
+//                armMotor.setPower(0.5);
+//                // telemetry.
+//            } else if (down) {
+//                armMotor.setPower(-0.5);
+//            } else {
+//                armMotor.setPower(0);
+//            }
+//
+//            if (gamepad2.a) {
+//                telemetry.addData("YO", "pressing Y");
+//                planeServo.setPosition(0.65);
+//            } else if (gamepad2.y) {
+//                planeServo.setPosition(2);
+//            }
+//            if (gamepad2.dpad_down) {
+//                hangServo.setPosition(0);
+//            } else if (gamepad2.dpad_up) {
+//                hangServo.setPosition(1);
+//            }
         }
     }
 }
