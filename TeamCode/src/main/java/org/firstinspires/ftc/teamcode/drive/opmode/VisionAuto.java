@@ -42,19 +42,26 @@ public class VisionAuto extends LinearOpMode {
         Trajectory longleft = drive.trajectoryBuilder(new Pose2d())
                 .strafeLeft(50)
                 .build();
+        vision.initOpenCV(hardwareMap);
+        waitForStart();
+
+        telemetry.addData("cX", vision.getXDirection());
         if(vision.getDirection() == opencv.autoDirection.LEFT){
+            telemetry.addData("where we going?", "LEFT");
             drive.followTrajectory(back);
             drive.followTrajectory(left);
             intakeMotor.setPower(-1);
         } else if (vision.getDirection() == opencv.autoDirection.RIGHT) {
+            telemetry.addData("where we going?","RIGHT" );
             drive.followTrajectory(left);
         } else if (vision.getDirection() == opencv.autoDirection.MIDDLE) {
+            telemetry.addData("where we going?","MiDDlE");
             drive.followTrajectory(shortback);
             drive.followTrajectory(longleft);
         }
 
 
-        waitForStart();
+
 
         if (isStopRequested()) return;
 

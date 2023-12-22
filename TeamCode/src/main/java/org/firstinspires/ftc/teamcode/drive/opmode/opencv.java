@@ -12,6 +12,7 @@ import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -29,6 +30,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
+//@TeleOp
 
 public class opencv extends LinearOpMode{
 
@@ -52,13 +54,11 @@ public class opencv extends LinearOpMode{
 
     @Override
     public void runOpMode() throws InterruptedException {
+        initOpenCV(hardwareMap);
 
-        initOpenCV();
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
-        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
-
-
+//        FtcDashboard dashboard = FtcDashboard.getInstance();
+//        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
+//        FtcDashboard.getInstance().startCameraStream(controlHubCam, 30);
         waitForStart();
 
         while (opModeIsActive()) {
@@ -84,7 +84,6 @@ public class opencv extends LinearOpMode{
     }
 
 public autoDirection getDirection(){
-        initOpenCV();
     if(cX < 100) {
 //        telemetry.addData("direction", "going left");
         direction = autoDirection.LEFT;
@@ -99,22 +98,22 @@ public autoDirection getDirection(){
 
     return direction;
 }
-    private void initOpenCV() {
-
+    public void initOpenCV(HardwareMap hardwareMap) {
         // Create an instance of the camera
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                 "cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
 
-//         Use OpenCvCameraFactory class from FTC SDK to create camera instance
-//        telemetry.addData("idk bro", OpenCvCameraFactory.getInstance());
-//        telemetry.update();
-        OpenCvCamera controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
+        // Use OpenCvCameraFactory class from FTC SDK to create camera instance
+        controlHubCam = OpenCvCameraFactory.getInstance().createWebcam(
                 hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
         controlHubCam.setPipeline(new YellowBlobDetectionPipeline());
 
         controlHubCam.openCameraDevice();
-        controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);
+        controlHubCam.startStreaming(CAMERA_WIDTH, CAMERA_HEIGHT, OpenCvCameraRotation.UPRIGHT);    }
+
+    public double getXDirection() {
+        return cX;
     }
     class YellowBlobDetectionPipeline extends OpenCvPipeline {
         @Override
@@ -156,6 +155,7 @@ public autoDirection getDirection(){
             }
 
             return input;
+
         }
 
         private Mat preprocessFrame(Mat frame) {
@@ -175,6 +175,7 @@ public autoDirection getDirection(){
 
             return yellowMask;
         }
+
 
         private MatOfPoint findLargestContour(List<MatOfPoint> contours) {
             double maxArea = 0;
@@ -200,6 +201,8 @@ public autoDirection getDirection(){
         double distance = (objectWidthInRealWorldUnits * focalLength) / width;
         return distance;
     }
+
+
 
 
 }
