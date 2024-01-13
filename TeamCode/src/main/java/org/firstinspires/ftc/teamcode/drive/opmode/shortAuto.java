@@ -25,7 +25,7 @@ public class shortAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        DcMotor intakeMotor = hardwareMap.dcMotor.get("intake");
+//        DcMotor intakeMotor = hardwareMap.dcMotor.get("intake");
 
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
@@ -44,10 +44,10 @@ public class shortAuto extends LinearOpMode {
         if (isStopRequested()) return;
 
         drive.followTrajectory(trajectory1);
-        intakeMotor.setPower(-1);
+//        intakeMotor.setPower(-1);
         drive.followTrajectory(trajectory2);
         Thread.sleep(2000);
-        intakeMotor.setPower(0);
+//        intakeMotor.setPower(0);
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());

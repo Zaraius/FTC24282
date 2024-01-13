@@ -27,7 +27,7 @@ public class blueLongAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        DcMotor intakeMotor = hardwareMap.dcMotor.get("intake");
+//        DcMotor intakeMotor = hardwareMap.dcMotor.get("intake");
         Telemetry telemetry = new MultipleTelemetry(this.telemetry, FtcDashboard.getInstance().getTelemetry());
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -37,17 +37,17 @@ public class blueLongAuto extends LinearOpMode {
                 .build();
 
         Trajectory trajectory2 = drive.trajectoryBuilder(new Pose2d())
-                .back(leftDISTANCE)
+                .forward(leftDISTANCE)
                 .build();
 
         Trajectory trajectory3 = drive.trajectoryBuilder(new Pose2d())
                 .strafeRight(rightDistance)
                 .build();
         Trajectory trajectory4 = drive.trajectoryBuilder(new Pose2d())
-                .back(leftDISTANCE)
+                .forward(leftDISTANCE)
                 .build();
         Trajectory trajectory5 = drive.trajectoryBuilder(new Pose2d())
-                .forward(backDistance)
+                .back(backDistance)
                 .build();
 
         waitForStart();
@@ -58,10 +58,10 @@ public class blueLongAuto extends LinearOpMode {
         drive.followTrajectory(trajectory2);
         drive.followTrajectory(trajectory3);
         drive.followTrajectory(trajectory4);
-        intakeMotor.setPower(-1);
+//        intakeMotor.setPower(-1);
         drive.followTrajectory(trajectory5);
         Thread.sleep(1000);
-        intakeMotor.setPower(0);
+//        intakeMotor.setPower(0);
 
         Pose2d poseEstimate = drive.getPoseEstimate();
         telemetry.addData("finalX", poseEstimate.getX());

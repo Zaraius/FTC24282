@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @TeleOp
-public class KenansAwesomeCode extends LinearOpMode {
+public class KenansAwesomeCode2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         // Declare our motors
@@ -17,15 +17,16 @@ public class KenansAwesomeCode extends LinearOpMode {
         DcMotor backLeftMotor = hardwareMap.dcMotor.get("backLeft");
         DcMotor frontRightMotor = hardwareMap.dcMotor.get("frontRight");
         DcMotor backRightMotor = hardwareMap.dcMotor.get("backRight");
-        DcMotor intakeMotor = hardwareMap.dcMotor.get("intake");
+//        DcMotor intakeMotor = hardwareMap.dcMotor.get("intake");
 //        DcMotor armMotor = hardwareMap.dcMotor.get("arm");
-//        Servo planeServo = hardwareMap.get(Servo.class, "plane");
-//        Servo hangServo = hardwareMap.get(Servo.class, "hang");
+        Servo planeServo = hardwareMap.get(Servo.class, "plane");
+        Servo hang1Servo = hardwareMap.get(Servo.class, "hang1");
+        Servo hang2Servo = hardwareMap.get(Servo.class, "hang2");
 
 
         frontRightMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 //        backLeftMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-//        planeServo.setDirection(Servo.Direction.FORWARD);
+//        hang1Servo.setDirection(Servo.Direction.FORWARD);
 
         waitForStart();
 
@@ -53,13 +54,13 @@ public class KenansAwesomeCode extends LinearOpMode {
             backLeftMotor.setPower(backLeftPower);
             frontRightMotor.setPower(frontRightPower);
             backRightMotor.setPower(backRightPower);
-            if (rb) {
-                intakeMotor.setPower(-1);
-            } else if (lb) {
-                intakeMotor.setPower(1);
-            } else {
-                intakeMotor.setPower(0);
-            }
+//            if (rb) {
+//                intakeMotor.setPower(-1);
+//            } else if (lb) {
+//                intakeMotor.setPower(1);
+//            } else {
+//                intakeMotor.setPower(0);
+//            }
 
 //            if (up) {
 //                armMotor.setPower(0.5);
@@ -70,17 +71,19 @@ public class KenansAwesomeCode extends LinearOpMode {
 //                armMotor.setPower(0);
 //            }
 //
-//            if (gamepad2.a) {
-//                telemetry.addData("YO", "pressing Y");
-//                planeServo.setPosition(0.65);
-//            } else if (gamepad2.y) {
-//                planeServo.setPosition(2);
-//            }
-//            if (gamepad2.dpad_down) {
-//                hangServo.setPosition(0);
-//            } else if (gamepad2.dpad_up) {
-//                hangServo.setPosition(1);
-//            }
+            if (gamepad2.a) {
+                telemetry.addData("YO", "pressing Y");
+                planeServo.setPosition(0.65);
+            } else if (gamepad2.y) {
+                planeServo.setPosition(1);
+            }
+            if (gamepad2.dpad_down) {
+                hang1Servo.setPosition(1);
+                hang2Servo.setPosition(0.0);
+            } else if (gamepad2.dpad_up) {
+                hang1Servo.setPosition(0);
+                hang2Servo.setPosition(1);
+            }
         }
     }
 }
